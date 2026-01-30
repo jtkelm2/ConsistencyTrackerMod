@@ -73,12 +73,16 @@ namespace Celeste.Mod.ConsistencyTracker.Models {
         public void AddAttempt(bool success, string debugRoomName) {
             RoomStats targetRoom = GetRoom(debugRoomName);
             targetRoom.AddAttempt(success);
+
+            AttemptLogger.LogAttempt(ChapterDebugName, debugRoomName, success);
         }
 
         /// <summary>Adds the attempt to the current room</summary>
         /// <param name="success">if the attempt was successful.</param>
         public void AddAttempt(bool success) {
             CurrentRoom.AddAttempt(success);
+
+            AttemptLogger.LogAttempt(ChapterDebugName, CurrentRoom.DebugRoomName, success);
 
             bool doNegativeStreakTracking = ConsistencyTrackerModule.Instance.ModSettings.TrackNegativeStreaks;
             if (success) {
